@@ -45,10 +45,12 @@ class Project
   end
 
   # Public: Check whether a branch is valid or not in the context of the given project.
+  # When a branch does not exist, some error message is written to stderr, which this
+  # method won't notice because it only gets stdout (which will be an empty list).
   def branch_is_valid? project_dir, branch
     command = "git show-ref --verify refs/heads/#{branch}"
     output = run_command(command, project_dir)
-    output.size > 0
+    output.length > 0
   end
 
   # Public: Switch project_dir to the required git branch.
@@ -57,7 +59,6 @@ class Project
     current_branch = run_command(check_command, project_dir)[0]
     current_branch = current_branch.gsub("\n", "")
     if current_branch != branch
-      # FIXME: Make sure that the passed in branch actually exists
       switch_command = "git checkout #{branch}"
       run_command(switch_command, project_dir)
       @logger.info("Switched branches for #{File.basename project_dir} " +
@@ -86,17 +87,17 @@ class Project
     basename = File.basename project
 
     if !git_project? project
-      @logger.warn("#{basename} is not a valid git project")
+      @logger.error("#{basename} is not a valid git project")
       return false
     end
 
     if not branch_is_valid? project, branch
-      @logger.warn("Branch #{branch} is not valid for project #{basename}")
+      @logger.error("Branch #{branch} is not valid for project #{basename}")
       return false
     end
 
     if has_local_changes? project
-      @logger.warn("Local changes found for #{basename}, " +
+      @logger.error("Local changes found for #{basename}, " +
         "won't chase pulling upstream anymore")
       return false
     end
