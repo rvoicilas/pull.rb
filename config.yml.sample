@@ -1,4 +1,4 @@
-# Sample of how projects should be added to config.yaml
+# Sample of how projects should be added to config.yml
 projects:
   - /home/rfv/pull.rb
   - /home/rfv/git
