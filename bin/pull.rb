@@ -1,9 +1,7 @@
 #! /usr/bin/env ruby
 
 thisfile = File.symlink?(__FILE__) ? File.readlink(__FILE__) : __FILE__
-puts thisfile
 libdir = File.absolute_path(File.join(File.dirname(thisfile), '..', 'lib'))
-puts libdir
 $LOAD_PATH.unshift libdir unless $LOAD_PATH.include? libdir
 
 require 'logger/colors'

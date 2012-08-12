@@ -5,6 +5,7 @@ GEM
     metaclass (0.0.1)
     mocha (0.12.3)
       metaclass (~> 0.0.1)
+    rake (0.9.2)
 
 PLATFORMS
   ruby
@@ -12,3 +13,4 @@ PLATFORMS
 DEPENDENCIES
   logger-colors
   mocha
+  rake
