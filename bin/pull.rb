@@ -32,4 +32,9 @@ projects.each { |project|
   status = puller.run(project, branch)
   failed += 1 unless status
 }
-logger.info("Done. ( #{failed} projects untouched )")
+
+if failed.nonzero?
+  logger.info("Done. ( #{failed} projects untouched )")
+else
+  logger.info("Done.")
+end
