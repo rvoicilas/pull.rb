@@ -7,7 +7,7 @@ module Pull
         _, err = capture_io do
           begin
             Cli.new([])
-          rescue SystemExit => e
+          rescue SystemExit
           end
         end
         expected = <<-EOS
@@ -23,7 +23,7 @@ EOS
         _, err = capture_io do
           begin
             Cli.new(['--file', 'fake!', 'master'])
-          rescue SystemExit => e
+          rescue SystemExit
           end
         end
         expected = <<-EOS
