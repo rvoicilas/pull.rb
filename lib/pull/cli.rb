@@ -1,14 +1,14 @@
 module Pull
   class Cli
-    def initialize(args, trollop=Trollop)
-      @opts = trollop.options args do
+    def initialize args
+      @opts = Trollop.options args do
         banner 'Usage: pull.rb [options] branch'
         banner 'Options:'
         opt :quiet, 'Do not display things I am doing', :default => false
         opt :file, 'A yaml file with project paths', :type => String
       end
 
-      trollop::die "Please provide a branch name" if args.first.nil?
+      Trollop::die "Please provide a branch name" if args.first.nil?
       @branch = args.first
       @config = YAML.load_file(handle_config)
     end
