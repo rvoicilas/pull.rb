@@ -56,9 +56,10 @@ EOS
     describe 'when --quiet is passed in' do
       it 'should not display anything to stdout' do
         out, _ = capture_io do
-          Cli.new(['--quiet', 'master'])
+          YAML.expects(:load_file).returns({})
+          Cli.new(['--quiet', 'master']).run
         end
-        assert out.empty?, 'Something got logged to stdout'
+        assert out.empty?, "Something got logged to stdout: #{out}"
       end
     end
   end
