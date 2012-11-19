@@ -1,5 +1,5 @@
 # Sample of how projects should be added to config.yml
-projects:
+git:
   - /home/rfv/pull.rb
   - /home/rfv/git
   - /home/rfv/sinatra
