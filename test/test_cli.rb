@@ -52,5 +52,14 @@ EOS
         assert_equal expected, err
       end
     end
+
+    describe 'when --quiet is passed in' do
+      it 'should not display anything to stdout' do
+        out, _ = capture_io do
+          Cli.new(['--quiet', 'master'])
+        end
+        assert out.empty?, 'Something got logged to stdout'
+      end
+    end
   end
 end
