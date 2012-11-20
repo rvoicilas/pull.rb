@@ -1,5 +1,6 @@
-require 'logger/colors'
+require 'logger'
 require 'open3'
+require 'rainbow'
 require 'trollop'
 require 'yaml'
 

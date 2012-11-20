@@ -60,8 +60,9 @@ module Pull
       if current_branch != branch
         switch_command = "git checkout #{branch}"
         run_command(switch_command, project_dir)
-        @logger.info("Switched branches for #{File.basename project_dir} " +
-                     "(#{current_branch} -> #{branch})")
+        msg = "Switched branches for #{File.basename project_dir} " +
+                     "(#{current_branch} -> #{branch})"
+        @logger.info(msg.color(:green))
       end
     end
 
@@ -86,18 +87,19 @@ module Pull
       basename = File.basename project
 
       if !git_project? project
-        @logger.error("#{basename} is not a valid git project")
+        @logger.error("#{basename} is not a valid git project".color(:red))
         return false
       end
 
       if not branch_is_valid? project, branch
-        @logger.error("Branch #{branch} is not valid for project #{basename}")
+        @logger.error("Branch #{branch} is not valid for project #{basename}".color(:red))
         return false
       end
 
       if has_local_changes? project
-        @logger.error("Local changes found for #{basename}, " +
+        msg = ("Local changes found for #{basename}, " +
                       "won't chase pulling upstream anymore")
+        @logger.error(msg.color(:red))
         return false
       end
 
@@ -117,7 +119,7 @@ module Pull
         end
       end
 
-      @logger.info("Done getting data from upstream for #{basename}#{stash_info}")
+      @logger.info("Done getting data from upstream for #{basename}#{stash_info}".color(:green))
 
       return true
     end

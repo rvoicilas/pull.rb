@@ -1,10 +1,10 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    logger-colors (1.0.0)
     metaclass (0.0.1)
     mocha (0.12.3)
       metaclass (~> 0.0.1)
+    rainbow (1.1.4)
     rake (10.0.1)
     trollop (2.0)
 
@@ -12,7 +12,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  logger-colors
   mocha
+  rainbow
   rake
   trollop

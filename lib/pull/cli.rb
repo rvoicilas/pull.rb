@@ -1,16 +1,26 @@
 module Pull
   class Cli
     def initialize args
+      # Do not allow ctrl-c, as you don't know in which state you're going
+      # to leave your project.
+      trap(:INT) {}
+
       @opts = Trollop.options args do
         banner 'Usage: pull.rb [options] branch'
         banner 'Options:'
         opt :quiet, 'Do not display things I am doing', :default => false
         opt :file, 'A yaml file with project paths', :type => String
+        opt :no_color, 'Do not use colors for the output', :default => false
       end
 
       Trollop::die "Please provide a branch name" if args.first.nil?
       @branch = args.first
       @config = YAML.load_file(handle_config)
+
+      # Turn off colored logging
+      if @opts[:no_color]
+        Sickill::Rainbow.enabled = false
+      end
     end
 
     # Returns a full path to the config file (either to the one provided
@@ -67,7 +77,7 @@ module Pull
         
     def run
       logger = get_logger
-      logger.info("Switching to #{@branch}")
+      logger.info("Switching to #{@branch}".color(:green))
 
       git_projects = @config['git']
       failed = 0
@@ -77,9 +87,9 @@ module Pull
       end
 
       if failed.nonzero?
-        logger.info("Done. ( #{failed} projects untouched )")
+        logger.info("Done. ( #{failed} projects untouched )".color(:green))
       else
-        logger.info("Done.")
+        logger.info("Done.".color(:green))
       end
         
     end
