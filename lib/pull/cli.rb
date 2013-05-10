@@ -62,7 +62,7 @@ module Pull
       end
       logger
     end
-        
+
     # Goes over each project and makes sure that changes
     # from that scm are pulled in from the branch provided
     # to the command line.
@@ -74,7 +74,7 @@ module Pull
       }
       failed
     end
-        
+
     def run
       logger = get_logger
       logger.info("Switching to #{@branch}".color(:green))
@@ -91,7 +91,7 @@ module Pull
       else
         logger.info("Done.".color(:green))
       end
-        
+
     end
   end
 end
