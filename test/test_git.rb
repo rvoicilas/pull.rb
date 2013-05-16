@@ -107,14 +107,14 @@ class GitTest < Test::Unit::TestCase
   end
 
   def test_run_pull_upstream_not_called_when_no_fetch_passed
-    git = Pull::Git.new(Logger.new("/dev/null"), false)
-    git.stubs(:git_project?).returns(true)
-    git.stubs(:has_local_changes?).returns(false)
-    git.stubs(:count_project_stashes).returns(0)
-    git.stubs(:branch_is_valid?).returns(true)
-    git.stubs(:switch_branch)
+    @git.should_fetch = false
+    @git.stubs(:git_project?).returns(true)
+    @git.stubs(:has_local_changes?).returns(false)
+    @git.stubs(:count_project_stashes).returns(0)
+    @git.stubs(:branch_is_valid?).returns(true)
+    @git.stubs(:switch_branch)
     # make sure pull_upstream is never called
-    git.stubs(:pull_upstream).never
-    git.run("myproject", "feature-branch")
+    @git.stubs(:pull_upstream).never
+    @git.run("myproject", "feature-branch")
   end
 end

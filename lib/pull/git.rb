@@ -1,5 +1,7 @@
 module Pull
   class Git
+    attr_accessor :should_fetch
+
     def initialize logger, should_fetch
       @logger = logger
       @should_fetch = should_fetch
