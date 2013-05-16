@@ -117,4 +117,16 @@ class GitTest < Test::Unit::TestCase
     @git.stubs(:pull_upstream).never
     @git.run("myproject", "feature-branch")
   end
+
+  def test_get_stash_info_singular
+    assert_equal ' ( 1 existent stash )', @git.get_stash_info(1)
+  end
+
+  def test_get_stash_info_plural
+    assert_equal ' ( 3 existent stashes )', @git.get_stash_info(3)
+  end
+
+  def test_get_stash_info_zero
+    assert_equal '', @git.get_stash_info(0)
+  end
 end

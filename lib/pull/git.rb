@@ -77,6 +77,18 @@ module Pull
       stashes[0].to_i
     end
 
+    # Public: Returns a string with info about the current stashes
+    def get_stash_info count_stashes
+      if count_stashes.zero?
+        return ''
+      end
+      if count_stashes > 1
+        return ' ( ' + count_stashes.to_s + ' existent stashes )'
+      else
+        return ' ( ' + count_stashes.to_s + ' existent stash )'
+      end
+    end
+
     # Public: Pull the code from upstream for the specified project
     def pull_upstream project_dir, branch
       command = "git pull --rebase origin #{branch}"
@@ -106,27 +118,14 @@ module Pull
         return false
       end
 
-      count_stashes = count_project_stashes project
       switch_branch project, branch
 
       if @should_fetch
         pull_upstream project, branch
-      end
-
-      # Display some info about the project that we just updated
-      stash_info = ''
-      if count_stashes.nonzero?
-        stash_info = ' ( ' + count_stashes.to_s + ' existent stash'
-        if count_stashes > 1
-          # add the plural
-          stash_info = stash_info + 'es )'
-        else
-          stash_info = stash_info  + ' )'
-        end
-      end
-
-      if @should_fetch
-        @logger.info("Done getting data from upstream for #{basename}#{stash_info}".color(:green))
+        stash_msg = get_stash_info(count_project_stashes project)
+        logmsg = ("Done getting data from upstream for " +
+                  "#{basename}#{stash_msg}")
+        @logger.info(logmsg.color(:green))
       end
 
       return true
