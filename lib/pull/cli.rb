@@ -67,12 +67,25 @@ module Pull
     # from that scm are pulled in from the branch provided
     # to the command line.
     def run_projects puller, projects, logger
-      failed = 0
+      status_queue = Queue.new
+      projects_threads = []
+      
       projects.each { |project|
-        status = puller.run(project, @branch)
-        failed += 1 unless status
+        thread = Thread.new do
+          status = puller.run(project, @branch)
+          status_queue << 1 unless status
+        end
+        projects_threads << thread
       }
-      failed
+      
+      projects_threads.each { |thread|
+        thread.join
+      }
+
+      # Since we're adding only when failures happen,
+      # the length of the queue should be good enough for
+      # figuring out the number of failures
+      status_queue.length
     end
 
     def run

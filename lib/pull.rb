@@ -1,6 +1,7 @@
 require 'logger'
 require 'open3'
 require 'rainbow'
+require 'thread'
 require 'trollop'
 require 'yaml'
 
