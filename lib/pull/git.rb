@@ -1,7 +1,8 @@
 module Pull
   class Git
-    def initialize logger
+    def initialize logger, should_fetch
       @logger = logger
+      @should_fetch = should_fetch
     end
 
     # Public: Runs an external unix command.
@@ -105,7 +106,10 @@ module Pull
 
       count_stashes = count_project_stashes project
       switch_branch project, branch
-      pull_upstream project, branch
+
+      if @should_fetch
+        pull_upstream project, branch
+      end
 
       # Display some info about the project that we just updated
       stash_info = ''
@@ -119,7 +123,9 @@ module Pull
         end
       end
 
-      @logger.info("Done getting data from upstream for #{basename}#{stash_info}".color(:green))
+      if @should_fetch
+        @logger.info("Done getting data from upstream for #{basename}#{stash_info}".color(:green))
+      end
 
       return true
     end

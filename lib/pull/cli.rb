@@ -11,6 +11,7 @@ module Pull
         opt :quiet, 'Do not display things I am doing', :default => false
         opt :file, 'A yaml file with project paths', :type => String
         opt :no_color, 'Do not use colors for the output', :default => false
+        opt :no_fetch, 'Do not fetch data from remote', :default => false
       end
 
       Trollop::die "Please provide a branch name" if args.first.nil?
@@ -95,7 +96,7 @@ module Pull
       git_projects = @config['git']
       failed = 0
       if not git_projects.nil?
-        git = Pull::Git.new(logger)
+        git = Pull::Git.new(logger, !@opts[:no_fetch])
         failed += run_projects(git, git_projects, logger)
       end
 

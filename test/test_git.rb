@@ -14,8 +14,7 @@ end
 
 class GitTest < Test::Unit::TestCase
   def setup
-    logger = Logger.new("/dev/null")
-    @git = Pull::Git.new(logger)
+    @git = Pull::Git.new(Logger.new("/dev/null"), true)
   end
 
   def test_git_project_yes
@@ -105,5 +104,17 @@ class GitTest < Test::Unit::TestCase
     # this is what we're actually testing
     @git.stubs(:pull_upstream).once
     @git.run("myproject", "master")
+  end
+
+  def test_run_pull_upstream_not_called_when_no_fetch_passed
+    git = Pull::Git.new(Logger.new("/dev/null"), false)
+    git.stubs(:git_project?).returns(true)
+    git.stubs(:has_local_changes?).returns(false)
+    git.stubs(:count_project_stashes).returns(0)
+    git.stubs(:branch_is_valid?).returns(true)
+    git.stubs(:switch_branch)
+    # make sure pull_upstream is never called
+    git.stubs(:pull_upstream).never
+    git.run("myproject", "feature-branch")
   end
 end
