@@ -74,7 +74,7 @@ class GitTest < Test::Unit::TestCase
   end
 
   def test_pull_upstream
-    @git.stubs(:run_command).once
+    @git.stubs(:run_command).twice
     @git.pull_upstream "/uhuu/project", "master"
   end
 
@@ -101,7 +101,6 @@ class GitTest < Test::Unit::TestCase
     @git.stubs(:count_project_stashes).returns(0)
     @git.stubs(:branch_is_valid?).returns(true)
     @git.stubs(:switch_branch)
-    # this is what we're actually testing
     @git.stubs(:pull_upstream).once
     @git.run("myproject", "master")
   end

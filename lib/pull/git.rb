@@ -93,6 +93,11 @@ module Pull
     def pull_upstream project_dir, branch
       command = "git pull --rebase origin #{branch}"
       run_command(command, project_dir)
+
+      # Also, run a fetch so that the index is updated and git status
+      # doesn't return false positives
+      command = "git fetch origin #{branch}"
+      run_command(command, project_dir)
     end
 
     # Public: Pulls code from upstream for a git project
