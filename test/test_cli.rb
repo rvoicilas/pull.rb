@@ -5,10 +5,7 @@ module Pull
     describe 'when no branch is provided' do
       it 'should display an error' do
         _, err = capture_io do
-          begin
-            Cli.new([])
-          rescue SystemExit
-          end
+          execute_and_rescue { Cli.new([]) }
         end
         expected = <<-EOS
 Error: Please provide a branch name.
@@ -21,10 +18,7 @@ EOS
     describe 'when a missing config file is provided' do
       it 'should print out an error message' do
         _, err = capture_io do
-          begin
-            Cli.new(['--file', 'fake!', 'master'])
-          rescue SystemExit
-          end
+          execute_and_rescue { Cli.new(['--file', 'fake!', 'master']) }
         end
         expected = <<-EOS
 Error: Missing config file, expected to be at fake!.
@@ -38,10 +32,7 @@ EOS
       it 'should print out an error message' do
         _, err = capture_io do
           File.expects(:exists?).returns(false)
-          begin
-            Cli.new(['master'])
-          rescue SystemExit
-          end
+          execute_and_rescue { Cli.new(['master']) }
         end
         default_config_path = File.absolute_path(File.join(File.dirname(__FILE__), '..',
                                                            Pull::DEFAULT_CONFIG_NAME))
