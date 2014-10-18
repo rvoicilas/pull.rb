@@ -4,7 +4,7 @@ GEM
     metaclass (0.0.1)
     mocha (0.14.0)
       metaclass (~> 0.0.1)
-    rainbow (1.1.4)
+    rainbow (2.0.0)
     rake (10.0.4)
     trollop (2.0)
 

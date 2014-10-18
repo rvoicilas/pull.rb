@@ -91,7 +91,7 @@ module Pull
 
     def run
       logger = get_logger
-      logger.info("Switching to #{@branch}".color(:green))
+      logger.info(Rainbow("Switching to #{@branch}").green)
 
       git_projects = @config['git']
       failed = 0
@@ -101,9 +101,10 @@ module Pull
       end
 
       if failed.nonzero?
-        logger.info("Done. ( #{failed} projects untouched )".color(:green))
+        logger.info(Rainbow(
+            "Done. ( #{failed} projects untouched )").green)
       else
-        logger.info("Done.".color(:green))
+        logger.info(Rainbow("Done.".green))
       end
 
     end

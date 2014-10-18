@@ -65,7 +65,7 @@ module Pull
         run_command(switch_command, project_dir)
         msg = "Switched branches for #{File.basename project_dir} " +
                      "(#{current_branch} -> #{branch})"
-        @logger.info(msg.color(:green))
+        @logger.info(Rainbow(msg).green)
       end
     end
 
@@ -107,19 +107,21 @@ module Pull
       basename = File.basename project
 
       if !git_project? project
-        @logger.error("#{basename} is not a valid git project".color(:red))
+        @logger.error(Rainbow(
+            "#{basename} is not a valid git project").red)
         return false
       end
 
       if not branch_is_valid? project, branch
-        @logger.error("Branch #{branch} is not valid for project #{basename}".color(:red))
+        @logger.error(Rainbow(
+            "Branch #{branch} is not valid for project #{basename}").red)
         return false
       end
 
       if has_local_changes? project
         msg = ("Local changes found for #{basename}, " +
                       "won't chase pulling upstream anymore")
-        @logger.error(msg.color(:red))
+        @logger.error(Rainbow(msg).red)
         return false
       end
 
@@ -130,7 +132,7 @@ module Pull
         stash_msg = get_stash_info(count_project_stashes project)
         logmsg = ("Done getting data from upstream for " +
                   "#{basename}#{stash_msg}")
-        @logger.info(logmsg.color(:green))
+        @logger.info(Rainbow(logmsg).green)
       end
 
       return true
