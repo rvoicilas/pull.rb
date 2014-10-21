@@ -104,7 +104,7 @@ module Pull
         logger.info(Rainbow(
             "Done. ( #{failed} projects untouched )").green)
       else
-        logger.info(Rainbow("Done.".green))
+        logger.info(Rainbow("Done.").green)
       end
 
     end
